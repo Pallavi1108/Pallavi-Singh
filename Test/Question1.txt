@@ -1,0 +1,274 @@
+
+mysql> 1.create database BankManagementSchema;
+Query OK, 1 row affected (0.04 sec)
+
+
+
+mysql>2. use BankManagementSchema;
+Database changed
+
+
+
+mysql> 3. create table branch_master(branch_id varchar(6) primary key, branch_name varchar(30), branch_city varchar(30));
+Query OK, 0 rows affected (0.14 sec)
+
+
+
+
+mysql> 4.create table loan_details(customer_number varchar(6), branch_id varchar(6), loan_amount int(7), foreign key(branch_id)references branch_master(branch_id), foreign key (customer_number) references customer_master(customer_number));
+Query OK, 0 rows affected (0.14 sec)
+
+
+
+
+
+mysql>5.create table customer_master(customer_number varchar(6) primary key, firstname varchar(30), middlename varchar(30), lastname varchar(30), customer_city varchar(15), customer_contact_no varchar(10), occupation varchar(20), customer_date_of_birth DATE);
+Query OK, 0 rows affected (0.08 sec)
+
+
+
+
+
+mysql>6. create table account_master(account_number varchar(6) primary key, customer_number varchar(6), branch_id varchar(6), opening_balance int(7), account_opening_date DATE, account_type varchar(10), account_status varchar(10), foreign key(customer_number) references customer_master(customer_number), foreign key(branch_id) references branch_master(branch_id));
+Query OK, 0 rows affected (0.08 sec)
+
+
+
+mysql> 7.create table transaction_details(transaction_number varchar(6) primary key, account_number varchar(6), date_of_transaction DATE, medium_of_transaction varchar(20), transaction_type varchar(20), transaction_amount int(7), foreign key(account_number) references account_master(account_number));
+Query OK, 0 rows affected (0.13 sec)
+
+
+
+
+mysql> insert into branch_master values('1','Shilpi Plaza','Rewa');
+Query OK, 1 row affected (0.03 sec)
+
+mysql> insert into branch_master values('2','Sirmour Chowk','Satna');
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into branch_master values('3','Khanna Chowk','Rewa');
+Query OK, 1 row affected (0.03 sec)
+
+mysql> insert into branch_master values('4','BodaBagh','Jabalpur');
+Query OK, 1 row affected (0.03 sec)
+
+mysql> insert into branch_master values('5','MP Nagar','Bhopal');
+Query OK, 1 row affected (0.02 sec)
+
+mysql> select * from branch_master;
++-----------+---------------+-------------+
+| branch_id | branch_name   | branch_city |
++-----------+---------------+-------------+
+| 1         | Shilpi Plaza  | Rewa        |
+| 2         | Sirmour Chowk | Satna       |
+| 3         | Khanna Chowk  | Rewa        |
+| 4         | BodaBagh      | Jabalpur    |
+| 5         | MP Nagar      | Bhopal      |
++-----------+---------------+-------------+
+5 rows in set (0.00 sec)
+
+
+mysql> insert into customer_master values('101','Pallavi','Singh','Parihar','Rewa','7024068908','Java Developer','1997-08-11');
+Query OK, 1 row affected (0.03 sec)
+
+mysql> insert into customer_master values('102','Abhinav','Kumar','Dubey','Rewa','7000505030','Senior Manager','1996-09-19');
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into customer_master values('103','Satyam','Kumar','Solanki','Satna','7000445030','Python Developer','1996-10-19');
+Query OK, 1 row affected (0.03 sec)
+
+mysql> insert into customer_master values('104','Mrinal','Singh','khare','Bhopal','7000445060','Teacher','1995-10-19');
+Query OK, 1 row affected (0.03 sec)
+
+
+mysql> insert into customer_master values('105','Anubhuti','Kumari','Bhargava','Indore','7900445060','Manager','1999-10-19');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into customer_master values('106','Ayushi','Kumari','Khede','Delhi','8900445060','IT Manager','1999-10-19');
+Query OK, 1 row affected (0.03 sec)
+
+mysql> select * from customer_master;
++-----------------+-----------+------------+----------+---------------+---------------------+------------------+------------------------+
+| customer_number | firstname | middlename | lastname | customer_city | customer_contact_no | occupation       | customer_date_of_birth |
++-----------------+-----------+------------+----------+---------------+---------------------+------------------+------------------------+
+| 101             | Pallavi   | Singh      | Parihar  | Rewa          | 7024068908          | Java Developer   | 1997-08-11             |
+| 102             | Abhinav   | Kumar      | Dubey    | Rewa          | 7000505030          | Senior Manager   | 1996-09-19             |
+| 103             | Satyam    | Kumar      | Solanki  | Satna         | 7000445030          | Python Developer | 1996-10-19             |
+| 104             | Mrinal    | Singh      | khare    | Bhopal        | 7000445060          | Teacher          | 1995-10-19             |
+| 105             | Anubhuti  | Kumari     | Bhargava | Indore        | 7900445060          | Manager          | 1999-10-19             |
+| 106             | Ayushi    | Kumari     | Khede    | Delhi         | 8900445060          | IT Manager       | 1999-10-19             |
++-----------------+-----------+------------+----------+---------------+---------------------+------------------+------------------------+
+6 rows in set (0.00 sec)
+
+
+
+
+mysql> insert into account_master values('101010', '101','1', 5000, '2020-08-12', 'Saving','Active');
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into account_master values('101020', '102','2', 4000, '2020-09-12', 'Salary','Active');
+Query OK, 1 row affected (0.03 sec)
+
+mysql> insert into account_master values('101030', '103','3', 2000, '2019-09-12', 'Salary','Closed');
+Query OK, 1 row affected (0.03 sec)
+
+mysql> insert into account_master values('101040', '104','4', 9000, '2020-10-12', 'Saving','Active');
+Query OK, 1 row affected (0.03 sec)
+
+mysql> select * from account_master;
++----------------+-----------------+-----------+-----------------+----------------------+--------------+----------------+
+| account_number | customer_number | branch_id | opening_balance | account_opening_date | account_type | account_status |
++----------------+-----------------+-----------+-----------------+----------------------+--------------+----------------+
+| 101010         | 101             | 1         |            5000 | 2020-08-12           | Saving       | Active         |
+| 101020         | 102             | 2         |            4000 | 2020-09-12           | Salary       | Active         |
+| 101030         | 103             | 3         |            2000 | 2019-09-12           | Salary       | Closed         |
+| 101040         | 104             | 4         |            9000 | 2020-10-12           | Saving       | Active         |
++----------------+-----------------+-----------+-----------------+----------------------+--------------+----------------+
+4 rows in set (0.00 sec)
+
+
+mysql> insert into loan_details values('101','1',999999);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into loan_details values('102','2',99999);
+Query OK, 1 row affected (0.03 sec)
+
+mysql> insert into loan_details values('103','3',9999);
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into loan_details values('104','4',99977);
+Query OK, 1 row affected (0.02 sec)
+
+mysql> select * from loan_details;
++-----------------+-----------+-------------+
+| customer_number | branch_id | loan_amount |
++-----------------+-----------+-------------+
+| 101             | 1         |      999999 |
+| 102             | 2         |       99999 |
+| 103             | 3         |        9999 |
+| 104             | 4         |       99977 |
++-----------------+-----------+-------------+
+4 rows in set (0.00 sec)
+
+
+
+
+
+#Questions:
+
+1)
+
+mysql> select account_master.account_number,account_master.customer_number,customer_master.firstname,customer_master.lastname,account_master.account_opening_date from account_master join customer_master on account_master.customer_number=customer_master.customer_number;
++----------------+-----------------+-----------+----------+----------------------+
+| account_number | customer_number | firstname | lastname | account_opening_date |
++----------------+-----------------+-----------+----------+----------------------+
+| 101010         | 101             | Pallavi   | Parihar  | 2020-08-12           |
+| 101020         | 102             | Abhinav   | Dubey    | 2020-09-12           |
+| 101030         | 103             | Satyam    | Solanki  | 2019-09-12           |
+| 101040         | 104             | Mrinal    | khare    | 2020-10-12           |
++----------------+-----------------+-----------+----------+----------------------+
+4 rows in set (0.00 sec)
+
+mysql>
+
+2)
+
+mysql> select count(*) as cust_count from customer_master where customer_city='delhi';
++------------+
+| cust_count |
++------------+
+|          1 |
++------------+
+1 row in set (0.06 sec)
+
+3)
+
+mysql>  select a.customer_number,c.firstname,a.account_number from account_master a,customer_master c where a.customer_number=c.customer_number and day(account_opening_date)>15;
+Empty set (0.02 sec)
+
+mysql>
+
+4)
+
+mysql> select a.customer_number,a.account_number,c.firstname from account_master a,customer_master c where a.customer_number=c.customer_number and account_status="active";
++-----------------+----------------+-----------+
+| customer_number | account_number | firstname |
++-----------------+----------------+-----------+
+| 101             | 101010         | Pallavi   |
+| 102             | 101020         | Abhinav   |
+| 104             | 101040         | Mrinal    |
++-----------------+----------------+-----------+
+
+
+5)
+
+mysql> select transaction_type,count(*) as Trans_count from transaction_details t,account_master a where t.account_number=a.account_number and a.customer_number="101";
++------------------+-------------+
+| transaction_type | Trans_count |
++------------------+-------------+
+| NULL             |           0 |
++------------------+-------------+
+1 row in set (0.00 sec)
+
+6)
+
+
+mysql>  select count(*) as Count_Customer from customer_master where customer_number not in(select distinct customer_number from account_master);
++----------------+
+| Count_Customer |
++----------------+
+|              2 |
++----------------+
+1 row in set (0.03 sec)
+
+
+7)
+
+
+mysql> select distinct a.account_number,sum(t.transaction_amount)+a.opening_balance as Deposit_Amount from account_master a,transaction_details t where  t.account_number=a.account_number and transaction_type="deposit" group by account_number
+    -> union
+    -> select account_number,opening_balance from account_master where account_number not in
+    -> (select account_number from transaction_details);
++----------------+----------------+
+| account_number | Deposit_Amount |
++----------------+----------------+
+| 101010         |           5000 |
+| 101020         |           4000 |
+| 101030         |           2000 |
+| 101040         |           9000 |
++----------------+----------------+
+4 rows in set (0.02 sec)
+
+
+8)
+
+
+mysql> select b.branch_city,count(*) from branch_master b,account_master a where b.branch_id=a.branch_id group by branch_city
+    -> union
+    -> select branch_city,0 from branch_master where branch_city not in
+    -> (select branch_city from branch_master b,account_master a where a.branch_id=b.branch_id group by branch_city)
+    -> union
+    -> select b.branch_id,count(*) from branch_master b,account_master a where a.branch_id=b.branch_id group by branch_id
+    -> union
+    -> select branch_id,0 from branch_master where branch_id not in
+    -> (select a.branch_id from branch_master b,account_master a where a.branch_id=b.branch_id group by branch_id);
++-------------+----------+
+| branch_city | count(*) |
++-------------+----------+
+| Jabalpur    |        1 |
+| Rewa        |        2 |
+| Satna       |        1 |
+| Bhopal      |        0 |
+| 1           |        1 |
+| 2           |        1 |
+| 3           |        1 |
+| 4           |        1 |
+| 5           |        0 |
++-------------+----------+
+9 rows in set (0.02 sec)
+
+mysql>
+
+
+
+
